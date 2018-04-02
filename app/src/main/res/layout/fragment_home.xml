@@ -1,0 +1,67 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="velix.id.mobile.fragments.HomeFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/fab_margin"
+        android:orientation="vertical">
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_gravity="center"
+            android:layout_width="@dimen/dimen_120"
+            android:layout_height="@dimen/dimen_120"
+            android:src="@mipmap/ic_launcher_round"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"/>
+
+        <TextView
+            android:layout_marginTop="@dimen/dimen_20"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/welcome"/>
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="@dimen/dimen_20sp"
+            android:text="Balwant Singh"/>
+
+        <TextView
+            android:layout_marginTop="@dimen/dimen_20"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/velix_id"/>
+        <TextView
+            android:id="@+id/tv_velixid"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="@dimen/dimen_20sp"
+            android:text="98766543"/>
+        
+        <Button
+            android:id="@+id/btn_viewprofile"
+            android:layout_width="@dimen/dimen_160"
+            android:layout_height="@dimen/dimen_45"
+            android:layout_gravity="center"
+            android:textAllCaps="false"
+            android:layout_marginTop="@dimen/dimen_50"
+            android:text="@string/view_profile"/>
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Velix</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="welcome">Welcome</string>
+    <string name="velix_id">Your Velix.ID</string>
+    <string name="view_profile">View Profile</string>
+    <string name="backup">BackUp Profile</string>
+    <string name="restore">Restore Profile</string>
+    <string name="logout">Logout</string>
+    <string name="information_require">&#160;has requested your \nfollowing information</string>
+    <string name="legal_name">Legal Name</string>
+    <string name="permanent_address">Permanent Address</string>
+    <string name="deny">deny</string>
+    <string name="approve">approve</string>
+</resources>
