@@ -16,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.security.KeyPairGenerator;
+
 import velix.id.mobile.fragments.AuthRequestFragment;
 import velix.id.mobile.fragments.HomeFragment;
 import velix.id.mobile.fragments.ProfileFragment;
@@ -23,6 +25,8 @@ import velix.id.mobile.fragments.SettingsFragment;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    KeyPairGenerator kpg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
