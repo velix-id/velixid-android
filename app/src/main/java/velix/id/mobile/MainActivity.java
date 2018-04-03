@@ -1,5 +1,6 @@
 package velix.id.mobile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,17 +17,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.security.KeyPairGenerator;
-
 import velix.id.mobile.fragments.AuthRequestFragment;
 import velix.id.mobile.fragments.HomeFragment;
 import velix.id.mobile.fragments.ProfileFragment;
-import velix.id.mobile.fragments.SettingsFragment;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    KeyPairGenerator kpg;
+    //KeyPairGenerator kpg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,8 +101,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ProfileFragment fragment = new ProfileFragment();
             replaceFragment(fragment);
         } else if (id == R.id.nav_settings) {
-            SettingsFragment fragment = new SettingsFragment();
-            replaceFragment(fragment);
+            startActivity(new Intent(this, SettingsActivity.class));
+           /* SettingsFragment fragment = new SettingsFragment();
+            replaceFragment(fragment);*/
         } else if (id == R.id.nav_authlog) {
             AuthRequestFragment fragment = new AuthRequestFragment();
             replaceFragment(fragment);

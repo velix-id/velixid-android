@@ -100,7 +100,7 @@ public class VelixIDKey {
 
         }catch(Exception e){
             e.printStackTrace();
-            *//*Logger log = Logger.getLogger(RsaCipher.class);
+           *//* Logger log = Logger.getLogger(RsaCipher.class);
             log.error("error for signature:" + e.getMessage());*//*
             return false;
         }

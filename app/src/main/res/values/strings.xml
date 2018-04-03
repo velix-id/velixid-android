@@ -22,4 +22,14 @@
     <string name="permanent_address">Permanent Address</string>
     <string name="deny">deny</string>
     <string name="approve">approve</string>
+    <string name="select_file">Select file</string>
+    <string name="file_created">Backup has been done successfully!</string>
+    <string name="file_create_error">Error in creating file</string>
+    <string name="read_failed">Error while retrieving file</string>
+    <string name="content_loaded">File contents successfully read</string>
+    <string name="file_not_selected">No file selected, cannot continue</string>
+    <string name="custom_property_updated">Custom property updated successfully</string>
+    <string name="update_failed">Unable to update.</string>
+    <string name="password">Password</string>
+    <string name="add">Add</string>
 </resources>
