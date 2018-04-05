@@ -72,8 +72,10 @@ public class AuthRequestFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_deny:
+
                 break;
             case R.id.btn_approve:
+
                 break;
         }
     }

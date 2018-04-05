@@ -8,4 +8,5 @@
     <color name="red">#E20202</color>
     <color name="green">#00961B</color>
     <color name="check">#83D42A</color>
+    <color name="buttonColor">#2C508C</color>
 </resources>

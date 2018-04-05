@@ -34,8 +34,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:fontFamily="sans-serif-medium"
-            android:textSize="@dimen/dimen_20sp"
-            android:text="Balwant Singh"/>
+            android:textSize="@dimen/dimen_20sp" />
 
         <TextView
             android:layout_marginTop="@dimen/dimen_20"
@@ -51,8 +50,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:fontFamily="sans-serif-medium"
-            android:textSize="@dimen/dimen_20sp"
-            android:text="98766543"/>
+            android:textSize="@dimen/dimen_20sp" />
         
         <Button
             android:id="@+id/btn_viewprofile"

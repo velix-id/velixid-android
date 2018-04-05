@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import velix.id.mobile.others.SettingSharedPreferences;
+
 /**
  * Created by User on 4/2/2018.
  */
@@ -39,14 +41,14 @@ public class Splash extends AppCompatActivity {
                 public void run() {
                     // This method will be executed once the timer is over
                     // Start your app main activity
-                    startActivity(new Intent(Splash.this, MainActivity.class));
-                    finish();
+                    startingActivity();
                 }
             }, SPLASH_TIME_OUT);
 
         }
 
     }
+
 
     private  boolean checkAndRequestPermissions() {
         int writePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -87,17 +89,24 @@ public class Splash extends AppCompatActivity {
                             && perms.get(Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED) {
                         Log.d(TAG, "EXTERNAL_STORAGE & GET_ACCOUNTS services permission granted");
                         // process the normal flow
-                        startActivity(new Intent(Splash.this, MainActivity.class));
-                        finish();
+                        startingActivity();
                         //else any one or both the permissions are not granted
                     } else {
-                        startActivity(new Intent(Splash.this, MainActivity.class));
-                        finish();
+                        startingActivity();
                     }
                 }
             }
         }
 
+    }
+
+    private void startingActivity() {
+        SettingSharedPreferences ssp = new SettingSharedPreferences(this);
+        if (ssp.getUserNameLoginValue()!= null){
+            startActivity(new Intent(Splash.this, MainActivity.class));
+        } else {
+            startActivity(new Intent(Splash.this, WelcomeActivity.class));
+        }
     }
 
 }

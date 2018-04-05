@@ -31,5 +31,27 @@
     <string name="custom_property_updated">Custom property updated successfully</string>
     <string name="update_failed">Unable to update.</string>
     <string name="password">Password</string>
-    <string name="add">Add</string>
+    <string name="create_new">Create New Velix.ID</string>
+    <string name="restore_velix">Restore Velix.ID</string>
+    <string name="enter_name">Enter your Full name</string>
+    <string name="create_tag">lets create your</string>
+    <string name="velixid">Velix.ID</string>
+    <string name="next">Next</string>
+    <string name="generate">Generate Velix.ID</string>
+    <string name="enter_email">Enter your Email</string>
+    <string name="username_error">Enter user name</string>
+    <string name="useremail_error">Enter email id</string>
+    <string name="validemail_error">Enter valid email id</string>
+    <string name="update">Update</string>
+    <string name="updated_successfully">Profile has been updated successfully.</string>
+    <string name="userphone_error">Enter your phone number</string>
+    <string name="title">Title</string>
+    <string name="body">Body</string>
+    <string name="notify">Notifiy</string>
+    <string name="topic">VID_</string>
+
+    <!--Services-->
+    <string name="generates">generate</string>
+    <string name="identifier">identidier</string>
+
 </resources>

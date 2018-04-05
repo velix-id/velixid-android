@@ -4,11 +4,17 @@ package velix.id.mobile.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import velix.id.mobile.R;
+import velix.id.mobile.others.SettingSharedPreferences;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +32,7 @@ public class ProfileFragment extends Fragment {
     private String mParam2;
 
     private AppCompatEditText et_name, et_phone, et_email;
+    private SettingSharedPreferences ssp;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -66,7 +73,64 @@ public class ProfileFragment extends Fragment {
         et_name = rootView.findViewById(R.id.et_name);
         et_phone = rootView.findViewById(R.id.et_phone);
         et_email = rootView.findViewById(R.id.et_email);
+
+        ssp = new SettingSharedPreferences(getActivity());
+        showView();
+
+        rootView.findViewById(R.id.btn_update).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkNullFields();
+            }
+        });
+
         return rootView;
+    }
+
+    private void checkNullFields() {
+        if (TextUtils.isEmpty(et_name.toString())){
+            showMessage(getString(R.string.username_error));
+        } else if (TextUtils.isEmpty(et_email.getText().toString())){
+            showMessage(getString(R.string.useremail_error));
+        } else if (!isEmailValid(et_email.getText().toString())){
+            showMessage(getString(R.string.validemail_error));
+        } else if (TextUtils.isEmpty(et_phone.getText().toString())){
+            showMessage(getString(R.string.userphone_error));
+        } else {
+            ssp.saveLoginPreferences(et_name.getText().toString(), et_email.getText().toString(), et_phone.getText().toString());
+            showMessage(getString(R.string.updated_successfully));
+            showView();
+        }
+
+    }
+
+    private boolean isEmailValid(String email) {
+        String regExpn = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                +"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                +"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                +"([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
+
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(regExpn, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+
+        if (matcher.matches())
+            return true;
+        else
+            return false;
+    }
+
+    private void showMessage(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void showView() {
+        et_name.setText(ssp.getUserNameLoginValue());
+        et_phone.setText(ssp.getContactLoginValue());
+        et_email.setText(ssp.getEmailLoginValue());
     }
 
 }

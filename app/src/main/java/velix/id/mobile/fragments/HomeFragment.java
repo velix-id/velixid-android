@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import velix.id.mobile.R;
+import velix.id.mobile.others.SettingSharedPreferences;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,6 +70,9 @@ public class HomeFragment extends Fragment {
         imageView = rootView.findViewById(R.id.profile_image);
         tv_name = rootView.findViewById(R.id.tv_username);
         tv_velixid = rootView.findViewById(R.id.tv_velixid);
+        SettingSharedPreferences ssp = new SettingSharedPreferences(getActivity());
+        tv_name.setText(ssp.getUserNameLoginValue());
+        tv_velixid.setText(ssp.getVelixId());
 
         rootView.findViewById(R.id.btn_viewprofile).setOnClickListener(new View.OnClickListener() {
             @Override
