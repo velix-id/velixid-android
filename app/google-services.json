@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "563253652313",
+    "firebase_url": "https://velix-mobile.firebaseio.com",
+    "project_id": "velix-mobile",
+    "storage_bucket": "velix-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563253652313:android:59a33f5c4063f6b5",
+        "android_client_info": {
+          "package_name": "id.velix.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "563253652313-l5bbsjclvr2kam36us1kj2040q47iad5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoKyiYyXvUIZbhjwT2xCKK6pp1eVwSfWU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563253652313:android:b1ef1317e490c558",
+        "android_client_info": {
+          "package_name": "velix.id.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "563253652313-l5bbsjclvr2kam36us1kj2040q47iad5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoKyiYyXvUIZbhjwT2xCKK6pp1eVwSfWU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
