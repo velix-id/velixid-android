@@ -9,14 +9,19 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.Metadata;
+import com.google.android.gms.drive.MetadataBuffer;
 import com.google.android.gms.drive.MetadataChangeSet;
 import com.google.android.gms.drive.metadata.CustomPropertyKey;
+import com.google.android.gms.drive.query.Filters;
+import com.google.android.gms.drive.query.Query;
+import com.google.android.gms.drive.query.SearchableField;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,6 +34,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -49,7 +56,7 @@ public class SettingsActivity extends BaseDemoActivity implements View.OnClickLi
 
     //variable for decide if i need to do a backup or a restore.
     //True stands for backup, False for restore
-    private boolean bckORrst = true;
+    private boolean bckORrst;
     private String data;
     private JSONObject jKeyObjectType;
     private SettingSharedPreferences ssp;
@@ -71,6 +78,7 @@ public class SettingsActivity extends BaseDemoActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_backup:
+                bckORrst = true;
                 signIn();
                 break;
             case R.id.btn_restore:
@@ -100,13 +108,13 @@ public class SettingsActivity extends BaseDemoActivity implements View.OnClickLi
     }
 
     private void importFromDrive() {
-        pickTextFile()
+        pickFolder()
                 .addOnSuccessListener(this,
                         new OnSuccessListener<DriveId>() {
                             @Override
                             public void onSuccess(DriveId driveId) {
-                                retrieveContents(driveId.asDriveFile());
-                                //updateCustomProperty(driveId.asDriveFile());
+                                listFilesInFolder(driveId.asDriveFolder());
+                                //retrieveContents(driveId.asDriveFile());
                             }
                         })
                 .addOnFailureListener(this, new OnFailureListener() {
@@ -114,6 +122,36 @@ public class SettingsActivity extends BaseDemoActivity implements View.OnClickLi
                     public void onFailure(@NonNull Exception e) {
                         Log.e(TAG, "No file selected", e);
                         showMessage(getString(R.string.file_not_selected));
+                    }
+                });
+    }
+
+    /**
+     * Retrieves results for the next page. For the first run,
+     * it retrieves results for the first page.
+     */
+    private void listFilesInFolder(DriveFolder folder) {
+        Query query = new Query.Builder()
+                .addFilter(Filters.eq(SearchableField.MIME_TYPE, "text/plain"))
+                .build();
+        // [START query_children]
+        Task<MetadataBuffer> queryTask = getDriveResourceClient().queryChildren(folder, query);
+        // END query_children]
+        queryTask
+                .addOnSuccessListener(this,
+                        new OnSuccessListener<MetadataBuffer>() {
+                            @Override
+                            public void onSuccess(MetadataBuffer metadataBuffer) {
+                               // mResultsAdapter.append(metadataBuffer);
+                                //Log.e("Query Result ", metadataBuffer.toString());
+                            }
+                        })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "Error retrieving files", e);
+                        showMessage(getString(R.string.query_failed));
+                        finish();
                     }
                 });
     }
@@ -236,7 +274,6 @@ public class SettingsActivity extends BaseDemoActivity implements View.OnClickLi
 
     private void writeFile() {
         ssp = new SettingSharedPreferences(this);
-
         try {
             jKeyObjectType = new JSONObject();
             jKeyObjectType.put("velixid", ssp.getVelixId());
@@ -262,10 +299,6 @@ public class SettingsActivity extends BaseDemoActivity implements View.OnClickLi
             jEmailArray.put(jEmailObj);
             jKeyObjectType.put("emails", jEmailArray);
 
-           /* for (int i=0; i<jEmailArray.length(); i++){
-
-            }*/
-
             /*Emails*/
             JSONArray jPhoneArray = new JSONArray();
             JSONObject jPhoneObj = new JSONObject();
@@ -275,24 +308,33 @@ public class SettingsActivity extends BaseDemoActivity implements View.OnClickLi
             jPhoneArray.put(jPhoneObj);
             jKeyObjectType.put("phone", jPhoneArray);
 
-            /*for (int i=0; i<jPhoneArray.length(); i++){
-
-            }*/
-
             Log.e("Format", jKeyObjectType.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
         data = jKeyObjectType.toString();
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput("VelixBackup.txt", Context.MODE_PRIVATE));
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput(getString(R.string.FILE_NAME), Context.MODE_PRIVATE));
             outputStreamWriter.write(data);
+            outputStreamWriter.flush();
             outputStreamWriter.close();
-            createFile();
+            String yourFilePath = getFilesDir()+"/"+getString(R.string.FILE_NAME);
+            File yourFile = new File(yourFilePath);
+            Log.e("Filename", yourFile.getName());
+            FileInputStream fin = openFileInput(getString(R.string.FILE_NAME));
+            int c;
+            String temp="";
+            while( (c = fin.read()) != -1){
+                temp = temp + Character.toString((char)c);
+            }
+            Log.e("File_Data", temp);
+            fin.close();
+            createFileInAppFolder();
         }
         catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
+
     }
 
     private String md5(String string) {
@@ -313,14 +355,14 @@ public class SettingsActivity extends BaseDemoActivity implements View.OnClickLi
         return "";
     }
 
-    private void createFile() {
-        final Task<DriveFolder> rootFolderTask = getDriveResourceClient().getRootFolder();
+    private void createFileInAppFolder() {
+        final Task<DriveFolder> appFolderTask = getDriveResourceClient().getAppFolder();
         final Task<DriveContents> createContentsTask = getDriveResourceClient().createContents();
-        Tasks.whenAll(rootFolderTask, createContentsTask)
+        Tasks.whenAll(appFolderTask, createContentsTask)
                 .continueWithTask(new Continuation<Void, Task<DriveFile>>() {
                     @Override
                     public Task<DriveFile> then(@NonNull Task<Void> task) throws Exception {
-                        DriveFolder parent = rootFolderTask.getResult();
+                        DriveFolder parent = appFolderTask.getResult();
                         DriveContents contents = createContentsTask.getResult();
                         OutputStream outputStream = contents.getOutputStream();
                         try (Writer writer = new OutputStreamWriter(outputStream)) {
@@ -328,10 +370,10 @@ public class SettingsActivity extends BaseDemoActivity implements View.OnClickLi
                         }
 
                         MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-                                                            .setTitle("VelixBackup")
-                                                            .setMimeType("text/plain")
-                                                            .setStarred(true)
-                                                            .build();
+                                .setTitle(getString(R.string.FILE_NAME))
+                                .setMimeType("text/plain")
+                                .setStarred(true)
+                                .build();
 
                         return getDriveResourceClient().createFile(parent, changeSet, contents);
                     }
@@ -343,6 +385,7 @@ public class SettingsActivity extends BaseDemoActivity implements View.OnClickLi
                             public void onSuccess(DriveFile driveFile) {
                                 showMessage(getString(R.string.file_created,
                                         driveFile.getDriveId().encodeToString()));
+                                Toast.makeText(getApplicationContext(), driveFile.getDriveId().encodeToString(), Toast.LENGTH_SHORT).show();
                                 //finish();
                             }
                         })
@@ -354,6 +397,7 @@ public class SettingsActivity extends BaseDemoActivity implements View.OnClickLi
                         //finish();
                     }
                 });
+
     }
 
     @Override
